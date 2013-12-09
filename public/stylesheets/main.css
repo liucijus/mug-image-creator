@@ -1,0 +1,11 @@
+.mug_form {
+    top: 50%;
+    left: 50%;
+    display: block;
+    position: absolute;
+    width: 600px;
+    height: 417px;
+
+    margin-top: -400px;
+    margin-left: -300px;
+}

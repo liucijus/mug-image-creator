@@ -1,0 +1,33 @@
+@(text: String, department: String = "Channels & Concepts IT")
+    @main("Mug image generator") {
+        <div class="mug_form">
+        <h1>Mug image creator</h1>
+        <div role="form">
+
+
+        <div class="form-group">
+            <label for="mug_text">Title line</label>
+            <input id="mug_text" name="text" type="text" value="@text" class="form-control"/>
+            <label for="mug_department">Department line</label>
+            <input id="mug_department" name="department" type="text" value="@department" class="form-control"/>
+        </div>
+        <button onclick="loadImage();" class="btn btn-default">Generate</button>
+        <br />
+        <img id="mug_image" src="@routes.Application.render(text, department)" >
+
+        </div>
+
+        </div>
+        <script type="text/javascript">
+          var loadImage = function() {
+          var image_url = "/render/" + encodeURIComponent($("#mug_text" ).val()) + "/" + encodeURIComponent($("#mug_department" ).val());
+          $("#mug_image" ).attr("src", image_url);
+        };
+
+        loadImage();
+        </script>
+
+    }
+
+
+
