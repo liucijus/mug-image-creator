@@ -17,6 +17,11 @@ object ImageGenerator {
 }
 
 class TextPainter(template: BufferedImage, buffer: BufferedImage) {
+  private val FontFileName: String = "SwedbankSans-Regular.ttf"
+  private val FontTracking: Double = -.045
+  private val TitleTextFonSize: Float = 97f
+  private val DepartmentTextFontSize: Float = 48f
+
   private var graphics2d: Graphics2D = null
 
   def this(template: BufferedImage) = {
@@ -41,35 +46,29 @@ class TextPainter(template: BufferedImage, buffer: BufferedImage) {
   }
 
   private def createFont(size: Float): Font = {
-    val stream: InputStream = getClass.getClassLoader.getResourceAsStream("SwedbankSans-Regular.ttf")
+    val stream: InputStream = getClass.getClassLoader.getResourceAsStream(FontFileName)
     val font: Font = Font.createFont(Font.TRUETYPE_FONT, stream)
-    val attributes: Map[TextAttribute, Double] = Map(TextAttribute.TRACKING -> -.045)
+    val attributes: Map[TextAttribute, Double] = Map(TextAttribute.TRACKING -> FontTracking)
     font.deriveFont(Font.BOLD, size).deriveFont(JavaConversions.mapAsJavaMap(attributes))
   }
 
-  private def renderText(text: String) = {
-    graphics2d.setPaint(Color.black)
-    graphics2d.setFont(createFont(97f))
-    val fm: FontMetrics = graphics2d.getFontMetrics
-    val x: Int = buffer.getWidth / 2 - fm.stringWidth(text) / 2
-    val y: Int = 141
-    graphics2d.drawString(text, x, y)
-  }
+  private def renderTitleText(text: String) = renderText(TitleTextFonSize, text, 141)
 
-  def renderDepartment(department: String) = {
+  private def renderDepartmentText(department: String) = renderText(DepartmentTextFontSize, department, 266)
+
+  private def renderText(size: Float, department: String, y: Int) {
     graphics2d.setPaint(Color.black)
-    graphics2d.setFont(createFont(48f))
+    graphics2d.setFont(createFont(size))
     val fm: FontMetrics = graphics2d.getFontMetrics
     val x: Int = buffer.getWidth / 2 - fm.stringWidth(department) / 2
-    val y: Int = 266
     graphics2d.drawString(department, x, y)
   }
 
   def render(text: String, department: String) = {
     renderTemplate()
     clearOldText()
-    renderText(text)
-    renderDepartment(department)
+    renderTitleText(text)
+    renderDepartmentText(department)
   }
 
   def getImage = buffer
