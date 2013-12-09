@@ -17,7 +17,7 @@ object Application extends Controller {
 
   def render(text: String, department: String) = Action {
     import play.api.Play.current
-    val file = Play.application.getFile("public/images/template.png")
+    val file = Play.application.getFile("public/images/sl_c_pos_letter_250px_A4.png")
     val image = ImageGenerator.generate(ImageIO.read(file), text, department)
     val out = new ByteArrayOutputStream()
     ImageIO.write(image, "PNG", out)

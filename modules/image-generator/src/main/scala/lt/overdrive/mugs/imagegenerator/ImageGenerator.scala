@@ -16,17 +16,16 @@ object ImageGenerator {
   }
 }
 
-class TextPainter(template: BufferedImage, buffer: BufferedImage) {
+class TextPainter(logoImage: BufferedImage) {
   private val FontFileName: String = "SwedbankSans-Regular.ttf"
   private val FontTracking: Double = -.045
-  private val TitleTextFonSize: Float = 97f
+  private val TitleTextFontSize: Float = 97f
   private val DepartmentTextFontSize: Float = 48f
+  private val ImageWidth: Int = 615
+  private val ImageHeight: Int = 400
 
+  private val buffer: BufferedImage = new BufferedImage(ImageWidth, ImageHeight, BufferedImage.TYPE_4BYTE_ABGR)
   private var graphics2d: Graphics2D = null
-
-  def this(template: BufferedImage) = {
-    this(template, new BufferedImage(template.getWidth + 100, template.getHeight, BufferedImage.TYPE_4BYTE_ABGR))
-  }
 
   def createGraphics() = {
     graphics2d = buffer.createGraphics()
@@ -37,12 +36,8 @@ class TextPainter(template: BufferedImage, buffer: BufferedImage) {
 
   private def renderTemplate() = {
     graphics2d.fillRect(0, 0, buffer.getWidth, buffer.getHeight)
-    graphics2d.drawImage(template, 50, 0, null)
-  }
-
-  private def clearOldText() = {
-    graphics2d.setColor(Color.white)
-    graphics2d.fillRect(0, 0, buffer.getWidth, 280)
+    val x = (ImageWidth - logoImage.getWidth) / 2
+    graphics2d.drawImage(logoImage, x, 280, null)
   }
 
   private def createFont(size: Float): Font = {
@@ -52,7 +47,7 @@ class TextPainter(template: BufferedImage, buffer: BufferedImage) {
     font.deriveFont(Font.BOLD, size).deriveFont(JavaConversions.mapAsJavaMap(attributes))
   }
 
-  private def renderTitleText(text: String) = renderText(TitleTextFonSize, text, 141)
+  private def renderTitleText(text: String) = renderText(TitleTextFontSize, text, 141)
 
   private def renderDepartmentText(department: String) = renderText(DepartmentTextFontSize, department, 266)
 
@@ -60,13 +55,12 @@ class TextPainter(template: BufferedImage, buffer: BufferedImage) {
     graphics2d.setPaint(Color.black)
     graphics2d.setFont(createFont(size))
     val fm: FontMetrics = graphics2d.getFontMetrics
-    val x: Int = buffer.getWidth / 2 - fm.stringWidth(department) / 2
+    val x: Int = ImageWidth / 2 - fm.stringWidth(department) / 2
     graphics2d.drawString(department, x, y)
   }
 
   def render(text: String, department: String) = {
     renderTemplate()
-    clearOldText()
     renderTitleText(text)
     renderDepartmentText(department)
   }
