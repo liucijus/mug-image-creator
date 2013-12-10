@@ -21,11 +21,13 @@
 
         <script type="text/javascript">
           var loadImage = function() {
-          var image_url = renderRoutes.controllers.Application.render($("#mug_text" ).val(), $("#mug_department" ).val()).url;
-          $("#mug_image" ).attr("src", image_url);
-        };
+            var text = $("#mug_text" ).val();
+            var department = $("#mug_department" ).val();
+            var image_url = renderRoutes.controllers.Application.render(text, department).url;
+            $("#mug_image" ).attr("src", image_url);
+          };
 
-        loadImage();
+          loadImage();
         </script>
 
     }
