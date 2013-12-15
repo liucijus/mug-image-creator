@@ -1,4 +1,7 @@
-This is your new Play application
+Mug picture generator
 =====================================
 
-This file will be packaged with your application, when using `play dist`.
+This application generates images which can be printed on mugs. 
+Image is very simple - it has only name and department text strings with a corporate logo at the bottom. Repository version uses Swedbank logo but can be replaced with any other logo file in configuration. 
+
+Application source code is my attempt to learn some of Play Framework with Scala. Feel free to improve :)
