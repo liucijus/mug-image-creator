@@ -16,6 +16,5 @@ object ApplicationBuild extends Build {
     settings(libraryDependencies ++= Seq("org.specs2" %% "specs2" % "2.3.6" % "test"))
 
   val main = play.Project(appName, appVersion, appDependencies).settings(
-    // Add your own project settings here
   ).dependsOn(imageGeneratorProject).aggregate(imageGeneratorProject)
 }
