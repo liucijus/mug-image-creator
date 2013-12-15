@@ -11,9 +11,9 @@
             <label for="mug_department">Department line</label>
             <input id="mug_department" name="department" type="text" value="@department" class="form-control"/>
         </div>
-        <button onclick="loadImage();" class="btn btn-default">Generate</button>
+        <button onclick="loadImage();" class="btn btn-default" >Generate</button>
         <br />
-        <img id="mug_image">
+        <img id="mug_image" class="mug_image" src="@routes.Application.render(text, department)">
 
         </div>
 
@@ -26,8 +26,6 @@
             var image_url = renderRoutes.controllers.Application.render(text, department).url;
             $("#mug_image" ).attr("src", image_url);
           };
-
-          $(loadImage());
         </script>
 
     }

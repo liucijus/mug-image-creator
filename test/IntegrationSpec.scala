@@ -1,24 +1,21 @@
-import org.specs2.mutable._
 import org.specs2.runner._
 import org.junit.runner._
 
+import play.api.libs.ws.{Response, WS}
 import play.api.test._
-import play.api.test.Helpers._
 
-/**
- * add your integration spec here.
- * An integration test will fire up a whole play application in a real (or headless) browser
- */
 @RunWith(classOf[JUnitRunner])
-class IntegrationSpec extends Specification {
-
+class IntegrationSpec extends PlaySpecification {
   "Application" should {
-
-    "work from within a browser" in new WithBrowser {
-
+    "should show image in frontpage" in new WithBrowser {
       browser.goTo("http://localhost:" + port)
+      val img = browser.$("#mug_image")
+      val imageUrl = img.getAttribute("src")
+      val response: Response = await(WS.url(imageUrl).get())
 
-      browser.pageSource must contain("Your new application is ready.")
+      response.status must equalTo(OK)
+      response.getAHCResponse.getContentType must equalTo("image/png")
+      response.getAHCResponse.getResponseBodyAsBytes.size must beGreaterThan(0)
     }
   }
 }
