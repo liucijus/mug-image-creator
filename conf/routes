@@ -3,9 +3,9 @@
 # ~~~~
 
 # Home page
-GET         /                    controllers.Application.index(text = "Sample")
+GET        /                                controllers.Application.index(text = "Sample")
 
-GET         /render/:text/:department          controllers.Application.render(text: String, department: String)
+GET        /render/:text/:department        controllers.Application.render(text: String, department: String)
 
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file        controllers.Assets.at(path="/public", file)
+GET        /assets/*file                    controllers.Assets.at(path="/public", file)
