@@ -5,22 +5,27 @@ import javax.imageio.ImageIO
 import org.junit.runner.RunWith
 import org.specs2.runner.JUnitRunner
 import java.awt.image.BufferedImage
+import org.specs2.matcher.Matcher
 
 @RunWith(classOf[JUnitRunner])
 class ImageGeneratorSpec extends Specification {
   "ImageGenerator" should {
-    "Generate the same image" in {
+    "Generate image with the same pixels" in {
       val (logo, expectedImage) = (loadImage("logo.png"), loadImage("expected.png"))
 
       val generatedImage = ImageGenerator.generate(logo, "Title", "Department")
 
-      arePixelsEqual(expectedImage, generatedImage) must beTrue
+      generatedImage must haveSamePixels(expectedImage)
     }
   }
 
   def loadImage(s: String) = ImageIO.read(getClass.getClassLoader.getResourceAsStream(s))
 
-  def arePixelsEqual(image1: BufferedImage, image2: BufferedImage): Boolean = {
+  def haveSamePixels(expected: BufferedImage): Matcher[BufferedImage] = {
+    (arePixelsEqual(_: BufferedImage, expected), "images are different")
+  }
+
+  def arePixelsEqual(image1: BufferedImage, image2: BufferedImage) = {
     val size1, (width, height) = (image1.getWidth, image1.getHeight)
     val size2 = (image2.getWidth, image2.getHeight)
 
