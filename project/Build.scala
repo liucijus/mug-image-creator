@@ -12,7 +12,8 @@ object ApplicationBuild extends Build {
     anorm
   )
 
-  lazy val imageGeneratorProject = Project("image-generator", file("modules/image-generator"))
+  lazy val imageGeneratorProject = Project("image-generator", file("modules/image-generator")).
+    settings(libraryDependencies ++= Seq("org.specs2" %% "specs2" % "2.3.6" % "test"))
 
   val main = play.Project(appName, appVersion, appDependencies).settings(
     // Add your own project settings here
